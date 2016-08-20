@@ -1,20 +1,21 @@
-# generate-coc [![NPM version](https://badge.fury.io/js/generate-coc.svg)](https://npmjs.org/package/generate-coc) [![Build Status](https://travis-ci.org/generate/generate-coc.svg?branch=master)](https://travis-ci.org/generate/generate-coc)
+## Quickstart
 
-> Generate a CODE_OF_CONDUCT.md file (Contributor Covenant Code of Conduct) for a project. Use from the command line when Generate's CLI is installed globally, or use as a plugin or sub-generator in your own generator.
+Visit the [ContributorCovenant/contributor_covenant](https://github.com/ContributorCovenant/contributor_covenant) project for more details.
 
-## Installation
+**Install**
+
+Install [generate][] and `generate-coc`:
 
 ```sh
-$ npm install --save generate-coc
+$ npm install --global generate generate-coc
 ```
 
-## Usage
+**Generate a contributor convenant**
 
-```js
-var generateCoc = require('generate-coc');
-generateCoc();
+To generate a `CODE_OF_CONDUCT.md` file to the current working directory, run:
+
+```sh
+$ gen coc
 ```
 
-## License
-
-Released under the MIT license. © [Jon Schlinkert](https://github.com/jonschlinkert)
+[generate]: https://github.com/generate/generate

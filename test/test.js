@@ -22,7 +22,6 @@ function exists(name, cb) {
 
     fs.stat(filepath, function(err, stat) {
       if (err) return cb(err);
-      assert(stat);
       del(actual(), cb);
     });
   };
@@ -31,7 +30,7 @@ function exists(name, cb) {
 describe('generate-coc', function() {
   this.slow(250);
 
-  if (!process.env.CI && !process.env.TRAVIS) {
+  if (!isTravis) {
     before(function(cb) {
       npm.maybeInstall('generate', cb);
     });
@@ -44,17 +43,10 @@ describe('generate-coc', function() {
 
     // see: https://github.com/jonschlinkert/ask-when
     app.option('askWhen', 'not-answered');
-
-    // set default data to use in templates. feel free to remove anything
-    // that isn't used (e.g. if "username" isn't defined in templates, just remove it)
-    app.data(pkg);
-    app.data('project', pkg);
-    app.data('username', 'foo');
-    app.data('owner', 'foo');
-  });
-
-  afterEach(function(cb) {
-    del(actual(), cb);
+    app.preRender(/./, function(file, next) {
+      file.set('data.author.email', 'jon.schlinkert@sellside.com');
+      next();
+    });
   });
 
   describe('tasks', function() {
@@ -77,19 +69,15 @@ describe('generate-coc', function() {
 
   describe('coc (CLI)', function() {
     it('should run the default task using the `generate-coc` name', function(cb) {
-      if (isTravis) {
-        this.skip();
-        return;
-      }
+      if (isTravis) return this.skip();
+
       app.use(generator);
       app.generate('generate-coc', exists('CODE_OF_CONDUCT.md', cb));
     });
 
     it('should run the default task using the `generator` generator alias', function(cb) {
-      if (isTravis) {
-        this.skip();
-        return;
-      }
+      if (isTravis) return this.skip();
+
       app.use(generator);
       app.generate('coc', exists('CODE_OF_CONDUCT.md', cb));
     });
@@ -145,22 +133,8 @@ describe('generate-coc', function() {
       app
         .register('foo', generator)
         .register('bar', generator)
-        .register('baz', generator)
-
+        .register('baz', generator);
       app.generate('foo.bar.baz', exists('CODE_OF_CONDUCT.md', cb));
-    });
-
-    it('should run tasks as a sub-generator', function(cb) {
-      app = generate({silent: true, cli: true});
-
-      app.generator('foo', function(sub) {
-        sub.register('coc', require('..'));
-        sub.generate('coc:unit-test', function(err) {
-          if (err) return cb(err);
-          assert.equal(app.base.get('cache.unit-test'), true);
-          cb();
-        });
-      });
     });
   });
 });

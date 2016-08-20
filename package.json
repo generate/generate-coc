@@ -1,6 +1,6 @@
 {
   "name": "generate-coc",
-  "description": "Generate a CODE_OF_CONDUCT.md file (Contributor Covenant Code of Conduct) for a project. Use from the command line when Generate's CLI is installed globally, or use as a plugin or sub-generator in your own generator.",
+  "description": "Generate a CODE_OF_CONDUCT.md file for a project (Contributor Covenant Code of Conduct). Use from the command line when Generate's CLI is installed globally, or use as a plugin or sub-generator in your own generator.",
   "version": "0.1.0",
   "homepage": "https://github.com/generate/generate-coc",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
@@ -8,7 +8,7 @@
   "bugs": {
     "url": "https://github.com/generate/generate-coc/issues"
   },
-  "license": "Released under the MIT license.",
+  "license": "MIT",
   "files": [
     "generator.js",
     "index.js",
@@ -29,9 +29,11 @@
   "devDependencies": {
     "delete": "^0.3.2",
     "generate": "^0.11.2",
+    "mocha": "^3.0.2",
     "npm-install-global": "^0.1.2"
   },
   "dependencies": {
+    "generate-defaults": "^0.6.0",
     "is-valid-app": "^0.2.0"
   }
 }

@@ -7,6 +7,12 @@ module.exports = function(app) {
   if (!isValid(app, 'generate-coc')) return;
 
   /**
+   * Plugins
+   */
+
+  app.use(require('generate-defaults'));
+
+  /**
    * Generates a `coc` file to the current working directory or
    * specified `--dest`.
    *
@@ -20,11 +26,9 @@ module.exports = function(app) {
 
   app.task('default', ['coc']);
   app.task('coc', function(cb) {
-    return app.src('templates/contributor-convenant.md', { cwd: __dirname })
+    return app.src('templates/coc.md', { cwd: __dirname })
+      .pipe(app.renderFile('*')).on('error', console.log)
       .pipe(app.conflicts(app.cwd))
-      .pipe(app.dest(function(file) {
-        file.basename = 'CODE_OF_CONDUCT.md';
-        return app.cwd;
-      }))
+      .pipe(app.dest(app.cwd))
   });
 };
